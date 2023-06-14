@@ -31,6 +31,7 @@ class ScholarScraper:
 
             if author_name in authors:
                 urls.append(url)
+                print("Found: " + url)
 
         return urls
 
