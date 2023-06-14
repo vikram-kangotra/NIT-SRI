@@ -63,15 +63,13 @@ class ScholarScraper:
             if field == 'Authors':
                 publication.author = value
             elif field == 'Journal':
-                publication.journal = value
+                publication.journal_name = value
             elif field == 'Volume':
                 publication.volume = value
             elif field == 'Pages':
                 publication.pages = value
             elif field == 'Publication date':
                 publication.month, publication.year = self.parse_date(value)
-            elif field == 'Description':
-                publication.description = value
 
         print("Fetched: " + publication.title)
 

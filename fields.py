@@ -15,14 +15,21 @@ class PublicationJournalFields:
             "ContentPlaceHolder1_TextBox_PubJournals": "",
         }
 
+    def clear(self, driver):
+        for element_id in self.fields.keys():
+            self.enter_input(driver, element_id, None)
+
     def send_keys(self, driver):
         for element_id, value in self.fields.items():
             self.enter_input(driver, element_id, value)
 
     def enter_input(self, driver, element_id, value):
         input_field = driver.find_element(By.ID, element_id)
-        input_field.clear()
         input_field.send_keys(value if value is not None else "")
+
+    def print(self):
+        for element_id, value in self.fields.items():
+            print(element_id, value)
 
     @property
     def month(self):

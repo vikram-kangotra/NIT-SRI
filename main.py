@@ -44,7 +44,10 @@ class NITSRILogin:
         publications = scraper.get_new_publications_by_author("RK Rout")
 
         for publication in publications:
+            publication.type = "SCOPUS"
+            publication.clear(self.driver)
             publication.send_keys(self.driver)
+            publication.print()
             submit = input("Submit? (y/n): ")
             if submit == "y":
                 self.click_button("ContentPlaceHolder1_Button_PubJournals_Submit")
