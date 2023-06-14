@@ -67,7 +67,7 @@ class ScholarScraper:
             elif field == 'Volume':
                 publication.volume = value
             elif field == 'Pages':
-                publication.pages = value
+                publication.page_number = value
             elif field == 'Publication date':
                 publication.month, publication.year = self.parse_date(value)
 
