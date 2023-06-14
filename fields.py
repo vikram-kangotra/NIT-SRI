@@ -17,7 +17,11 @@ class PublicationJournalFields:
 
     def clear(self, driver):
         for element_id in self.fields.keys():
-            self.enter_input(driver, element_id, None)
+            element = driver.find_element(By.ID, element_id)
+            elem_type = element.get_attribute("type")
+
+            if elem_type == "text":
+                element.clear()
 
     def send_keys(self, driver):
         for element_id, value in self.fields.items():
