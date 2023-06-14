@@ -10,19 +10,27 @@ class NITSRILogin:
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        self.driver = webdriver.Chrome()
+        self.driver = None
 
     def login(self):
+        self.driver = webdriver.Chrome()
         self.driver.get("https://www.nitsri.ac.in/Department/DeptWiseLogin.aspx?nDeptID=cs")
+
         self.enter_input("ContentPlaceHolder1_TextBox_LoginID", self.username)
         self.enter_input("ContentPlaceHolder1_TextBox_Password", self.password)
         self.enter_captcha()
         self.click_button("ContentPlaceHolder1_Button_Login")
+
         WebDriverWait(self.driver, 30).until(EC.url_contains("https://www.nitsri.ac.in/Department/CPWelcomeDept.aspx"))
 
     def enter_input(self, element_id, value):
         input_field = self.driver.find_element(By.ID, element_id)
         input_field.send_keys(value)
+
+
+    def navigate_to_publication_journal_form(self):
+        self.open_page("https://www.nitsri.ac.in/Department/CPDeptProfile.aspx")
+        self.click_button("ContentPlaceHolder1_LinkButton_PublicationJounral")
 
     def enter_captcha(self):
         captcha_input = input("Enter captcha: ")
@@ -36,22 +44,20 @@ class NITSRILogin:
         self.driver.get(url)
 
     def fill_publication_journal_form(self):
-        self.open_page("https://www.nitsri.ac.in/Department/CPDeptProfile.aspx")
-        self.click_button("ContentPlaceHolder1_LinkButton_PublicationJounral")
+        self.navigate_to_publication_journal_form()
 
         scraper = ScholarScraper()
         publications = scraper.get_new_publications_by_author("RK Rout")
 
         for publication in publications:
-            publication.type = "SCOPUS"
             publication.send_keys(self.driver)
             publication.print()
+
             submit = input("Submit? (y/n): ")
             if submit == "y":
                 self.click_button("ContentPlaceHolder1_Button_PubJournals_Submit")
             # hack to clear fields
-            self.open_page("https://www.nitsri.ac.in/Department/CPDeptProfile.aspx")
-            self.click_button("ContentPlaceHolder1_LinkButton_PublicationJounral")
+            self.navigate_to_publication_journal_form()
 
         scraper.close()
 
