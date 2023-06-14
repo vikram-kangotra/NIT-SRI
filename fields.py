@@ -15,14 +15,6 @@ class PublicationJournalFields:
             "ContentPlaceHolder1_TextBox_PubJournals": "",
         }
 
-    def clear(self, driver):
-        for element_id in self.fields.keys():
-            element = driver.find_element(By.ID, element_id)
-            elem_type = element.get_attribute("type")
-
-            if elem_type == "text":
-                element.clear()
-
     def send_keys(self, driver):
         for element_id, value in self.fields.items():
             self.enter_input(driver, element_id, value)
@@ -41,6 +33,7 @@ class PublicationJournalFields:
 
     @month.setter
     def month(self, value):
+        value = int(value)
         month_names = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"]
         self.fields["ContentPlaceHolder1_ddl_Jounrals_Month"] = month_names[value - 1]
 

@@ -37,7 +37,6 @@ class NITSRILogin:
 
     def fill_publication_journal_form(self):
         self.open_page("https://www.nitsri.ac.in/Department/CPDeptProfile.aspx")
-
         self.click_button("ContentPlaceHolder1_LinkButton_PublicationJounral")
 
         scraper = ScholarScraper()
@@ -45,12 +44,15 @@ class NITSRILogin:
 
         for publication in publications:
             publication.type = "SCOPUS"
-            publication.clear(self.driver)
             publication.send_keys(self.driver)
             publication.print()
             submit = input("Submit? (y/n): ")
             if submit == "y":
                 self.click_button("ContentPlaceHolder1_Button_PubJournals_Submit")
+            else:
+                # hack to clear fields
+                self.open_page("https://www.nitsri.ac.in/Department/CPDeptProfile.aspx")
+                self.click_button("ContentPlaceHolder1_LinkButton_PublicationJounral")
 
         scraper.close()
 
