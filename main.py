@@ -49,10 +49,9 @@ class NITSRILogin:
             submit = input("Submit? (y/n): ")
             if submit == "y":
                 self.click_button("ContentPlaceHolder1_Button_PubJournals_Submit")
-            else:
-                # hack to clear fields
-                self.open_page("https://www.nitsri.ac.in/Department/CPDeptProfile.aspx")
-                self.click_button("ContentPlaceHolder1_LinkButton_PublicationJounral")
+            # hack to clear fields
+            self.open_page("https://www.nitsri.ac.in/Department/CPDeptProfile.aspx")
+            self.click_button("ContentPlaceHolder1_LinkButton_PublicationJounral")
 
         scraper.close()
 
