@@ -41,7 +41,8 @@ class PublicationJournalFields:
 
     @month.setter
     def month(self, value):
-        self.fields["ContentPlaceHolder1_ddl_Jounrals_Month"] = value
+        month_names = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"]
+        self.fields["ContentPlaceHolder1_ddl_Jounrals_Month"] = month_names[value - 1]
 
     @property
     def year(self):
