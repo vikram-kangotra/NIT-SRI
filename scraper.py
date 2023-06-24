@@ -73,6 +73,9 @@ class ScholarScraper:
 
         print("Fetched: " + publication.title)
 
+        with open('urls.txt', 'a') as f:
+            f.write(url + '\n')
+
         return publication
 
     def get_new_publications_by_author(self, author_name):
@@ -86,10 +89,6 @@ class ScholarScraper:
                 old_urls = [url.strip() for url in old_urls]
 
         new_urls = [url for url in urls if url not in old_urls]
-
-        with open('urls.txt', 'w') as f:
-            for url in urls:
-                f.write(url + '\n')
 
         publications = []
 
