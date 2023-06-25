@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from fields import PublicationJournalFields
-import os
+import os, sys
 
 class ScholarScraper:
     def __init__(self):
@@ -24,6 +24,7 @@ class ScholarScraper:
         publications = self.driver.find_elements(By.CLASS_NAME, 'gsc_a_tr')
 
         urls = []
+        num_urls_found = 0
 
         for publication in publications:
             url = publication.find_element(By.CLASS_NAME, 'gsc_a_at').get_attribute('href')
@@ -31,7 +32,11 @@ class ScholarScraper:
 
             if author_name in authors:
                 urls.append(url)
-                print("Found: " + url)
+                num_urls_found += 1
+                sys.stdout.write("\rTotal papers found: %d" % num_urls_found)
+                sys.stdout.flush()
+
+        sys.stdout.write("\n")
 
         return urls
 
@@ -81,6 +86,9 @@ class ScholarScraper:
     def get_new_publications_by_author(self, author_name):
         urls = self.scrape_publication_url_by_author(author_name)
 
+        if not urls:
+            return
+
         old_urls = []
 
         if os.path.exists('urls.txt'):
@@ -89,6 +97,8 @@ class ScholarScraper:
                 old_urls = [url.strip() for url in old_urls]
 
         new_urls = [url for url in urls if url not in old_urls]
+
+        print("Total new papers found: ", len(new_urls))
 
         publications = []
 
